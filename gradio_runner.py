@@ -107,24 +107,24 @@ def go_gradio(**kwargs):
         instruction_label_nochat = "Instruction (Shift-Enter or push Submit to send message," \
                                    " use Enter for multiple input lines)"
 
-    title = 'h2oGPT'
+    title = 'SKA Labs GPT'
     if 'h2ogpt-research' in kwargs['base_model']:
         title += " [Research demonstration]"
-    more_info = """For more information, visit our GitHub pages: [h2oGPT](https://github.com/h2oai/h2ogpt) and [H2O-LLMStudio](https://github.com/h2oai/h2o-llmstudio)<br>"""
-    if is_public:
-        more_info += """<iframe src="https://ghbtns.com/github-btn.html?user=h2oai&repo=h2ogpt&type=star&count=true&size=small" frameborder="0" scrolling="0" width="150" height="20" title="GitHub"></iframe>"""
-    if kwargs['verbose']:
-        description = f"""Model {kwargs['base_model']} Instruct dataset.
-                      For more information, visit our GitHub pages: [h2oGPT](https://github.com/h2oai/h2ogpt) and [H2O LLM Studio](https://github.com/h2oai/h2o-llmstudio).
-                      Command: {str(' '.join(sys.argv))}
-                      Hash: {get_githash()}
-                      """
-    else:
-        description = more_info
-    description += "If this host is busy, try [LLaMa 65B](https://llama.h2o.ai), [Falcon 40B](https://gpt.h2o.ai), [Falcon 40B](http://falcon.h2o.ai), [HF Spaces1 12B](https://huggingface.co/spaces/h2oai/h2ogpt-chatbot) or [HF Spaces2 12B](https://huggingface.co/spaces/h2oai/h2ogpt-chatbot2)<br>"
-    description += """<p>By using h2oGPT, you accept our [Terms of Service](https://github.com/h2oai/h2ogpt/blob/main/docs/tos.md)</p>"""
-    if is_hf:
-        description += '''<a href="https://huggingface.co/spaces/h2oai/h2ogpt-chatbot?duplicate=true"><img src="https://bit.ly/3gLdBN6" style="white-space: nowrap" alt="Duplicate Space"></a>'''
+    more_info = """For more information, please contact kiran.bhattcharyya@ska-labs.com<br>"""
+    # if is_public:
+    #     more_info += """<iframe src="https://ghbtns.com/github-btn.html?user=h2oai&repo=h2ogpt&type=star&count=true&size=small" frameborder="0" scrolling="0" width="150" height="20" title="GitHub"></iframe>"""
+    # if kwargs['verbose']:
+    #     description = f"""Model {kwargs['base_model']} Instruct dataset.
+    #                   For more information, visit our GitHub pages: [h2oGPT](https://github.com/h2oai/h2ogpt) and [H2O LLM Studio](https://github.com/h2oai/h2o-llmstudio).
+    #                   Command: {str(' '.join(sys.argv))}
+    #                   Hash: {get_githash()}
+    #                   """
+    # else:
+    description = more_info
+    # description += "If this host is busy, try [LLaMa 65B](https://llama.h2o.ai), [Falcon 40B](https://gpt.h2o.ai), [Falcon 40B](http://falcon.h2o.ai), [HF Spaces1 12B](https://huggingface.co/spaces/h2oai/h2ogpt-chatbot) or [HF Spaces2 12B](https://huggingface.co/spaces/h2oai/h2ogpt-chatbot2)<br>"
+    # description += """<p>By using h2oGPT, you accept our [Terms of Service](https://github.com/h2oai/h2ogpt/blob/main/docs/tos.md)</p>"""
+    # if is_hf:
+    #     description += '''<a href="https://huggingface.co/spaces/h2oai/h2ogpt-chatbot?duplicate=true"><img src="https://bit.ly/3gLdBN6" style="white-space: nowrap" alt="Duplicate Space"></a>'''
 
     if kwargs['verbose']:
         task_info_md = f"""
@@ -146,8 +146,9 @@ def go_gradio(**kwargs):
     else:
         theme_kwargs = dict()
 
-    theme = H2oTheme(**theme_kwargs) if kwargs['h2ocolors'] else SoftTheme(**theme_kwargs)
-    demo = gr.Blocks(theme=theme, css=css_code, title="h2oGPT", analytics_enabled=False)
+    # theme = H2oTheme(**theme_kwargs) if kwargs['h2ocolors'] else SoftTheme(**theme_kwargs)
+    theme = SoftTheme(**theme_kwargs)
+    demo = gr.Blocks(theme=theme, css=css_code, title="SKA Labs GPT", analytics_enabled=False)
     callback = gr.CSVLogger()
 
     model_options = flatten_list(list(prompt_type_to_model_name.values())) + kwargs['extra_model_options']
@@ -174,8 +175,8 @@ def go_gradio(**kwargs):
     # transcribe for gradio
     kwargs['gpu_id'] = str(kwargs['gpu_id'])
 
-    no_model_msg = 'h2oGPT [   !!! Please Load Model in Models Tab !!!   ]'
-    output_label0 = f'h2oGPT [Model: {kwargs.get("base_model")}]' if kwargs.get(
+    no_model_msg = '[   !!! Please Load Model in Models Tab !!!   ]'
+    output_label0 = f'[Model: {kwargs.get("base_model")}]' if kwargs.get(
         'base_model') else no_model_msg
     output_label0_model2 = no_model_msg
 
@@ -604,10 +605,10 @@ def go_gradio(**kwargs):
                     description += """<p><b> DISCLAIMERS: </b><ul><i><li>The model was trained on The Pile and other data, which may contain objectionable content.  Use at own risk.</i></li>"""
                     if kwargs['load_8bit']:
                         description += """<i><li> Model is loaded in 8-bit and has other restrictions on this host. UX can be worse than non-hosted version.</i></li>"""
-                    description += """<i><li>Conversations may be used to improve h2oGPT.  Do not share sensitive information.</i></li>"""
+                    # description += """<i><li>Conversations may be used to improve h2oGPT.  Do not share sensitive information.</i></li>"""
                     if 'h2ogpt-research' in kwargs['base_model']:
                         description += """<i><li>Research demonstration only, not used for commercial purposes.</i></li>"""
-                    description += """<i><li>By using h2oGPT, you accept our <a href="https://github.com/h2oai/h2ogpt/blob/main/docs/tos.md">Terms of Service</a></i></li></ul></p>"""
+                    # description += """<i><li>By using h2oGPT, you accept our <a href="https://github.com/h2oai/h2ogpt/blob/main/docs/tos.md">Terms of Service</a></i></li></ul></p>"""
                     gr.Markdown(value=description, show_label=False, interactive=False)
 
         # Get flagged data
@@ -1444,7 +1445,7 @@ def go_gradio(**kwargs):
             return gr.Dropdown.update(value=x)
 
         def chatbot_list(x, model_used_in):
-            return gr.Textbox.update(label=f'h2oGPT [Model: {model_used_in}]')
+            return gr.Textbox.update(label=f'[Model: {model_used_in}]')
 
         load_model_args = dict(fn=load_model,
                                inputs=[model_choice, lora_choice, model_state, prompt_type,
@@ -1607,7 +1608,7 @@ def go_gradio(**kwargs):
         demo.load(None, None, None, _js=get_dark_js() if kwargs['h2ocolors'] and False else None)  # light best
 
     demo.queue(concurrency_count=kwargs['concurrency_count'], api_open=kwargs['api_open'])
-    favicon_path = "h2o-logo.svg"
+    favicon_path = "SKA_logo.png"
 
     scheduler = BackgroundScheduler()
     scheduler.add_job(func=clear_torch_cache, trigger="interval", seconds=20)
@@ -1677,7 +1678,7 @@ def get_sources(db1, langchain_mode, dbs=None, docs_state0=None):
         source_list = []
     elif langchain_mode in ['wiki_full']:
         source_files_added = "Not showing wiki_full, takes about 20 seconds and makes 4MB file." \
-                             "  Ask jon.mckinney@h2o.ai for file if required."
+                             "  Ask kiran.bhattacharyya@ska-labs.com for file if required."
         source_list = []
     elif langchain_mode == 'MyData' and len(db1) > 0 and db1[0] is not None:
         from gpt_langchain import get_metadatas
